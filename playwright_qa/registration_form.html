@@ -7,6 +7,8 @@
 *{box-sizing:border-box}body{margin:0;background:#f3f6fa;color:#202938;font-family:Arial,sans-serif}
 header{background:#173b63;color:white;padding:22px max(24px,calc((100% - 960px)/2))}
 nav{display:flex;gap:18px;flex-wrap:wrap;margin-top:12px}nav a{color:#dcecff}
+.map-frame{width:100%;height:360px;border:0;border-radius:8px}
+.map-section{background:white;border-radius:12px;padding:24px;margin-top:20px;box-shadow:0 3px 14px #14243a12}
 main{max-width:960px;margin:28px auto;padding:0 18px}.intro,form{background:white;border-radius:12px;padding:24px;box-shadow:0 3px 14px #14243a12}
 .intro{display:flex;gap:20px;align-items:center;margin-bottom:20px}.intro img{width:96px;height:96px;object-fit:cover;border-radius:10px}
 h1{margin:0 0 8px}h2{color:#173b63}h3{color:#244d76;border-bottom:1px solid #e4eaf1;padding-bottom:8px;margin-top:26px}
@@ -25,7 +27,7 @@ button{border:0;border-radius:7px;padding:11px 17px;cursor:pointer;font-weight:7
 <body>
 <header><strong>QA Practice Portal</strong>
 <nav aria-label="Main navigation">
-<a href="#registration">Registration</a><a href="#preferences">Preferences</a><a href="#help" id="helpLink">Help</a>
+<a href="#registration">Registration</a><a href="#preferences">Preferences</a><a href="#map">Google Map</a><a href="#help" id="helpLink">Help</a><a href="#native-dialog" id="nativeDialogLink">Native confirm dialog</a>
 <a href="https://playwright.dev/" target="_blank" rel="noopener">Playwright documentation</a>
 </nav></header>
 <main>
@@ -67,6 +69,18 @@ button{border:0;border-radius:7px;padding:11px 17px;cursor:pointer;font-weight:7
 <div class="field full"><label class="checkline"><input id="newsletter" name="newsletter" type="checkbox"> Subscribe to the monthly QA newsletter</label>
 <label class="checkline"><input id="terms" name="terms" type="checkbox" required> I agree to the terms and conditions *</label></div>
 </div></section>
+<section id="map" class="map-section" aria-labelledby="map-heading">
+<h2 id="map-heading">Google Maps</h2>
+<p class="hint">Practice locating an iframe and interacting with content embedded from another origin.</p>
+<iframe
+  class="map-frame"
+  title="Google Map showing Tel Aviv, Israel"
+  src="https://www.google.com/maps?q=Tel+Aviv,+Israel&output=embed"
+  loading="lazy"
+  referrerpolicy="no-referrer-when-downgrade"
+  allowfullscreen>
+</iframe>
+</section>
 <div class="actions">
 <button class="primary" type="submit">Submit registration</button>
 <button class="secondary" type="reset">Reset form</button>
@@ -133,6 +147,11 @@ form.addEventListener('reset',()=>{
 
 document.getElementById('closeDialog').addEventListener('click',()=>confirmationDialog.close());
 document.getElementById('helpLink').addEventListener('click',event=>{event.preventDefault();helpDialog.showModal();});
+document.getElementById('nativeDialogLink').addEventListener('click',event=>{
+  event.preventDefault();
+  const accepted=window.confirm('This is a native browser confirm dialog. Do you want to continue?');
+  status.textContent=accepted ? 'You selected OK in the native dialog.' : 'You selected Cancel in the native dialog.';
+});
 document.getElementById('closeHelp').addEventListener('click',()=>helpDialog.close());
 </script>
 </body></html>

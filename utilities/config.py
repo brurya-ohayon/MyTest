@@ -1,0 +1,1 @@
+GMAIL_URL = "https://workspace.google.com/intl/en-US/gmail/"

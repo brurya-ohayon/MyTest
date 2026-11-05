@@ -1,14 +1,20 @@
+import pytest
 from playwright.sync_api import Page, expect
 from consts import REGISTRATION_FORM, SUBMIT_MESSAGES
 
+
+
 FILE_PATH = "file:///C:/Users/user1/Documents/Projects/MyTest/playwright_qa/registration_form.html"
 
+
+@pytest.mark.smoke
+@pytest.mark.regression
 def test_registration_form(page: Page):
     # Navigate to the local registration form
     page.goto(FILE_PATH)
     printAccessibilityTree(page)
 
-    page.pause()
+    # page.pause()
 
     fillInFullForm(page)
     fillInPreferences(page)
@@ -16,8 +22,9 @@ def test_registration_form(page: Page):
     fillInFullForm(page)      
     fillInPreferences(page)    
     validateSubmitForm(page)
-    pass
+    
 
+@pytest.mark.smoke
 def test_header(page: Page):
     page.goto(FILE_PATH)
     checkRegistrationLink(page)
@@ -46,6 +53,7 @@ def fillInFullForm(page):
 
     #TODO: Fill in the date of birth
     fillInDateOfBirth(page, "1990-01-01")
+    
 
     #TODO: Select the country
     selectCountry(page, "Israel")
@@ -148,7 +156,10 @@ def validateSubmitForm(page):
 
 
 def validateResetForm(page):
-    page.get_by_role("button", name="Reset form").click()
+    # page.get_by_role("button", name="Reset form").click()
+    resetButton = page.get_by_role("button", name="Reset form")
+    resetButton.screenshot(path="screenshots/reset_button.png")
+    resetButton.click()
     expect(page.get_by_role("textbox", name="First name")).to_have_value("")
     expect(page.get_by_role("textbox", name="Last name")).to_have_value("")
     expect(page.get_by_role("textbox", name="City")).to_have_value("")
